@@ -1,11 +1,13 @@
 // import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
-function Login(props) {
-  console.log(props);
+function Login() {
   return (
-    <div>Login</div>
+    <div>
+      <Header />
+    </div>
   );
 }
 
