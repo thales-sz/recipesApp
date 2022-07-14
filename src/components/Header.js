@@ -5,17 +5,22 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [isSearchEnabled, setState] = useState(false);
+  const [inputSearch, setInputSearch] = useState('');
   const history = useHistory();
+
+  const handleChange = ({ target: { value } }) => {
+    setInputSearch(value);
+  };
 
   const handleClickButtonProfile = () => {
     history.push('/profile');
   };
 
   const handleClickButtonSearch = () => {
-    console.log('click do botão search');
     setState(!isSearchEnabled);
   };
 
@@ -42,7 +47,17 @@ function Header() {
           Profile Icon
         </object>
       </button>
-      {isSearchEnabled && <input type="text" />}
+      {isSearchEnabled && (
+        <>
+          <input
+            type="text"
+            data-testid="search-input"
+            value={ inputSearch }
+            onChange={ handleChange }
+          />
+          <SearchBar inputSearch={ inputSearch } />
+        </>
+      )}
     </header>
   );
 }
