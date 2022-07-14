@@ -1,14 +1,18 @@
+// import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-function Login() {
+function Login(props) {
+  console.log(props);
   return (
-    <div>Essa é a página de login</div>
+    <div>Login</div>
   );
 }
 
-const mapStateToProps = (globalState) => ({
-  globalState,
+Login.propTypes = {};
+
+const mapStateToProps = (state) => ({
+  state,
 });
 
 export default connect(mapStateToProps)(Login);
