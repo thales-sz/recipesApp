@@ -29,7 +29,7 @@ function Header() {
           type="image/svg+xml"
           data={ profileIcon }
         >
-          Profile Icon
+          Profile
         </object>
       </button>
       <button type="button" onClick={ handleClickButtonSearch }>
