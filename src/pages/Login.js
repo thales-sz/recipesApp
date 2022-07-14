@@ -1,13 +1,31 @@
 // import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
 
 function Login() {
   return (
-    <div>
-      <Header />
-    </div>
+    <form>
+      <label htmlFor="email-input">
+        Email:
+        <input
+          id="email-input"
+          data-testid="email-input"
+        />
+      </label>
+      <label htmlFor="password-input">
+        Senha:
+        <input
+          id="password-input"
+          data-testid="password-input"
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="login-submit-btn"
+      >
+        Enter
+      </button>
+    </form>
   );
 }
 
