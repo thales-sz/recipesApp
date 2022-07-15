@@ -31,6 +31,7 @@ function Header({ title }) {
           data-testid="profile-top-btn"
           className="profileIcon"
           type="image/svg+xml"
+          src={ profileIcon }
           data={ profileIcon }
         >
           Profile
@@ -41,6 +42,7 @@ function Header({ title }) {
           data-testid="search-top-btn"
           className="searchIcon"
           type="image/svg+xml"
+          src={ searchIcon }
           data={ searchIcon }
         >
           Profile Icon

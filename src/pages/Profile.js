@@ -6,7 +6,7 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        <Header title="profile" />
+        <Header title="Profile" />
       </div>
     );
   }
