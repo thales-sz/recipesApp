@@ -1,6 +1,6 @@
 // import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-// import { propTypes } from 'react-bootstrap/esm/Image';
+// import { propTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
