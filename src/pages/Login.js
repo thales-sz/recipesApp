@@ -13,7 +13,7 @@ class Login extends React.Component {
     const { password, email } = this.state;
     const NUM = 6;
     if (password.length > NUM && email.match(/\S+@\S+\.\S+/)) {
-      return this.setState({ disabled: false });
+      this.setState({ disabled: false });
     } this.setState({ disabled: true });
   };
 

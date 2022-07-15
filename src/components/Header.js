@@ -1,13 +1,12 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-// import { propTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-function Header() {
+function Header({ title }) {
   const [isSearchEnabled, setState] = useState(false);
   const [inputSearch, setInputSearch] = useState('');
   const history = useHistory();
@@ -26,7 +25,7 @@ function Header() {
 
   return (
     <header>
-      <h2 data-testid="page-title">Titulo da página</h2>
+      <h2 data-testid="page-title">{title}</h2>
       <button type="button" onClick={ handleClickButtonProfile }>
         <object
           data-testid="profile-top-btn"
@@ -62,7 +61,9 @@ function Header() {
   );
 }
 
-Header.propTypes = {};
+Header.propTypes = {
+  title: PropTypes.string,
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   state,
