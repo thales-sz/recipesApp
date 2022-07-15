@@ -50,6 +50,6 @@ describe('1 - Página de Login', () => {
     userEvent.click(btnLoginEnabled);
     await waitFor(() => expect(email).not.toBeInTheDocument(), {timeout: 2000})
     const { pathname } = history.location;
-    expect(pathname).toBe('/foods');
+    expect(pathname).toBe('/foods')
   })
 })
