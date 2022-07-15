@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -13,7 +13,7 @@ class Login extends React.Component {
     const { password, email } = this.state;
     const NUM = 6;
     if (password.length > NUM && email.match(/\S+@\S+\.\S+/)) {
-      this.setState({ disabled: false });
+      return this.setState({ disabled: false });
     } this.setState({ disabled: true });
   };
 
@@ -23,6 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, disabled } = this.state;
+    const { history } = this.props;
     return (
       <form>
         <label htmlFor="email">
@@ -49,6 +50,7 @@ class Login extends React.Component {
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }
+          onClick={ () => history.push('/foods') }
         >
           Enter
         </button>
@@ -57,7 +59,11 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {};
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   state,
