@@ -14,6 +14,7 @@ function SearchBar(props) {
 
   const handleCLick = async () => {
     const { inputSearch } = props;
+    console.log(radioState, inputSearch);
     const result = await getAPI(ENDPOINT_INGREDIENT);
     console.log(result);
   };
