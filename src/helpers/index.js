@@ -3,13 +3,10 @@ export const ENDPOINT_COCKTAIL = 'https://www.thecocktaildb.com/api.php';
 
 export const getAPI = async (url) => {
   try {
-    console.log(url);
-    const response = await fetch('www.thecocktaildb.com/api/json/v1/1/random.php');
-    console.log(response);
-    const result = await response.json();
-    console.log(result);
-    return result;
+    const response = await fetch(url);
+    const dataAPI = await response.json();
+    return dataAPI;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
