@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { propTypes } from 'react-bootstrap/esm/Image';
+import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAPI } from '../helpers';
 
-const ENDPOINT_MEAL = 'www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita';
+const ENDPOINT_INGREDIENT = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingrediente}';
 
 function SearchBar(props) {
   const [radioState, setRadioState] = useState('');
@@ -14,8 +14,7 @@ function SearchBar(props) {
 
   const handleCLick = async () => {
     const { inputSearch } = props;
-    console.log(radioState, inputSearch);
-    const result = getAPI(ENDPOINT_MEAL);
+    const result = await getAPI(ENDPOINT_INGREDIENT);
     console.log(result);
   };
 
