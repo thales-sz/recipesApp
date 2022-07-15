@@ -21,9 +21,17 @@ class Login extends React.Component {
     this.setState({ [event.target.id]: event.target.value }, this.onButtonChange);
   }
 
+  onClickButton = () => {
+    const { email } = this.state;
+    const { history } = this.props;
+    localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('mealsToken', '1');
+    localStorage.setItem('cocktailsToken', '1');
+    history.push('/foods');
+  }
+
   render() {
     const { email, password, disabled } = this.state;
-    const { history } = this.props;
     return (
       <form>
         <label htmlFor="email">
@@ -50,7 +58,7 @@ class Login extends React.Component {
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }
-          onClick={ () => history.push('/foods') }
+          onClick={ this.onClickButton }
         >
           Enter
         </button>
