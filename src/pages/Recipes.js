@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer.js';
 import Header from '../components/Header';
 
 function Recipes(props) {
@@ -22,7 +23,8 @@ function Recipes(props) {
         <Header title="Foods" />
       ) : (
         <Header title="Drinks" />
-      ) }
+      )}
+      <Footer />
     </main>
   );
 }
