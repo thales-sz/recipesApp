@@ -11,28 +11,22 @@ export default function Footer() {
     <footer className="footer-container" data-testid="footer">
       <div className="foods-container">
         <Link to="/foods">
-          <object
+          <img
             data-testid="food-bottom-btn"
             className="foodIcon"
-            type="image/svg+xml"
+            alt="foods"
             src={ foodIcon }
-            data={ foodIcon }
-          >
-            Foods
-          </object>
+          />
         </Link>
       </div>
       <div className="drink-container">
         <Link to="/drinks">
-          <object
+          <img
             data-testid="drinks-bottom-btn"
             className="drinksIcon"
-            type="image/svg+xml"
+            alt="drinks"
             src={ drinkIcon }
-            data={ drinkIcon }
-          >
-            Drinks
-          </object>
+          />
         </Link>
       </div>
     </footer>

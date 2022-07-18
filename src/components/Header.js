@@ -1,23 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import './Header.css';
 
-function Header({ title }) {
+function Header({ title, foodOrDrink }) {
   const [isSearchEnabled, setState] = useState(false);
   const [inputSearch, setInputSearch] = useState('');
-  const history = useHistory();
 
   const handleChange = ({ target: { value } }) => {
     setInputSearch(value);
-  };
-
-  const handleClickButtonProfile = () => {
-    history.push('/profile');
   };
 
   const handleClickButtonSearch = () => {
@@ -26,29 +21,27 @@ function Header({ title }) {
 
   return (
     <header className="header-container">
-      <h2 data-testid="page-title">{title}</h2>
-      <button type="button" onClick={ handleClickButtonProfile }>
-        <object
+      {title === 'Profile' ? <h2 data-testid="page-title">{title}</h2> : (
+        <h2 data-testid="page-title">{foodOrDrink ? 'Foods' : 'Drinks'}</h2>
+      )}
+      <Link to="/profile">
+        <img
           data-testid="profile-top-btn"
           className="profileIcon"
-          type="image/svg+xml"
+          alt="profile-button"
           src={ profileIcon }
-          data={ profileIcon }
-        >
-          Profile
-        </object>
-      </button>
-      <button type="button" onClick={ handleClickButtonSearch }>
-        <object
-          data-testid="search-top-btn"
-          className="searchIcon"
-          type="image/svg+xml"
-          src={ searchIcon }
-          data={ searchIcon }
-        >
-          Profile Icon
-        </object>
-      </button>
+        />
+      </Link>
+      {title === 'Profile' ? null : (
+        <button type="button" onClick={ handleClickButtonSearch }>
+          <img
+            data-testid="search-top-btn"
+            className="searchIcon"
+            alt="search-button"
+            src={ searchIcon }
+          />
+        </button>
+      )}
       {isSearchEnabled && (
         <>
           <input
