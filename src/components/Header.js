@@ -21,9 +21,10 @@ function Header({ title, foodOrDrink }) {
 
   return (
     <header className="header-container">
-      {title === 'Profile' ? <h2 data-testid="page-title">{title}</h2> : (
-        <h2 data-testid="page-title">{foodOrDrink ? 'Foods' : 'Drinks'}</h2>
-      )}
+      {(title === 'Profile' || title === 'Done Recipes' || title === 'Favorite Recipes')
+        ? (<h2 data-testid="page-title">{title}</h2>) : (
+          <h2 data-testid="page-title">{foodOrDrink ? 'Foods' : 'Drinks'}</h2>
+        )}
       <Link to="/profile">
         <img
           data-testid="profile-top-btn"
@@ -32,16 +33,17 @@ function Header({ title, foodOrDrink }) {
           src={ profileIcon }
         />
       </Link>
-      {title === 'Profile' ? null : (
-        <button type="button" onClick={ handleClickButtonSearch }>
-          <img
-            data-testid="search-top-btn"
-            className="searchIcon"
-            alt="search-button"
-            src={ searchIcon }
-          />
-        </button>
-      )}
+      {(title === 'Profile' || title === 'Done Recipes' || title === 'Favorite Recipes')
+        ? null : (
+          <button type="button" onClick={ handleClickButtonSearch }>
+            <img
+              data-testid="search-top-btn"
+              className="searchIcon"
+              alt="search-button"
+              src={ searchIcon }
+            />
+          </button>
+        )}
       {isSearchEnabled && (
         <>
           <input
