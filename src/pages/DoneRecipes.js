@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 function DoneRecipes(props) {
   console.log(props);
   return (
-    <div>DoneRecipes</div>
+    <Header title="Done Recipes" />
   );
 }
 

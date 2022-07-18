@@ -13,12 +13,17 @@ function Recipes() {
   const [foodOrDrink, setFoodOrDrink] = useState(false);
   console.log('globalState no Recipes:', globalState);
 
+
   useEffect(() => {
+    const { foods, drinks } = globalState;
     const route = history.location.pathname;
-    if (route === '/foods') {
-      return setFoodOrDrink(true);
-    } setFoodOrDrink(false);
-  }, [history.location.pathname]);
+    if (route === '/foods' || route === `/foods/${foods[0]?.idMeal}`) {
+      setFoodOrDrink(true);
+    }
+    if (route === '/drinks' || route === `/drinks/${drinks[0]?.idDrink}`) {
+      setFoodOrDrink(false);
+    }
+  }, [history.location.pathname, globalState]);
 
   return (
     <main>
