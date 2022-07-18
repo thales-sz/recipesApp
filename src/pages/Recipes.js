@@ -1,37 +1,29 @@
-// import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
 import Footer from '../components/Footer.js';
 import Header from '../components/Header';
 
 function Recipes() {
   const history = useHistory();
+  const globalState = useSelector((state) => state.reducer);
   const [foodOrDrink, setFoodOrDrink] = useState(false);
+  console.log(globalState);
 
   useEffect(() => {
     const route = history.location.pathname;
     if (route === '/foods') {
-      setFoodOrDrink(true);
-    }
+      return setFoodOrDrink(true);
+    } setFoodOrDrink(false);
   }, [history.location.pathname]);
 
   return (
     <main>
-      {foodOrDrink ? (
-        <Header title="Foods" />
-      ) : (
-        <Header title="Drinks" />
-      )}
+      <Header foodOrDrink={ foodOrDrink } />
       <Footer />
     </main>
   );
 }
 
-Recipes.propTypes = {};
-
-const mapStateToProps = (state) => ({
-  state,
-});
-
-export default connect(mapStateToProps)(Recipes);
+export default Recipes;
