@@ -5,8 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer.js';
 import Header from '../components/Header';
 
-function Recipes(props) {
-  console.log(props);
+function Recipes() {
   const history = useHistory();
   const [foodOrDrink, setFoodOrDrink] = useState(false);
 
