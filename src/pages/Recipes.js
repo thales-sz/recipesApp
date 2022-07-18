@@ -13,7 +13,6 @@ function Recipes() {
   const [foodOrDrink, setFoodOrDrink] = useState(false);
   console.log('globalState no Recipes:', globalState);
 
-
   useEffect(() => {
     const { foods, drinks } = globalState;
     const route = history.location.pathname;
