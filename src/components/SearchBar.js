@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getAPI } from '../helpers';
 import { addRecipeDrinks, addRecipeFoods } from '../redux/actions';
 
 function SearchBar({ inputSearch }) {
   const [radioState, setRadioState] = useState('');
+  const globalState = useSelector((state) => state.reducer);
   const [foodOrDrink, setFoodOrDrink] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -14,9 +15,17 @@ function SearchBar({ inputSearch }) {
   useEffect(() => {
     const route = history.location.pathname;
     if (route === '/foods') {
-      setFoodOrDrink(true);
-    }
+      return setFoodOrDrink(true);
+    } setFoodOrDrink(false);
   }, [history.location.pathname]);
+
+  useEffect(() => {
+    const { foods, drinks } = globalState;
+    if (foodOrDrink && foods?.length === 1) history.push(`/foods/${foods[0].idMeal}`);
+    if (!foodOrDrink && drinks?.length === 1) {
+      history.push(`/drinks/${drinks[0].idDrink}`);
+    }
+  }, [globalState, foodOrDrink, history]);
 
   const handleRadioChange = ({ target: { id } }) => {
     setRadioState(id);
@@ -44,6 +53,7 @@ function SearchBar({ inputSearch }) {
   };
 
   const setDrinks = async () => {
+    console.log(globalState);
     let searchEndpoint;
     switch (radioState) {
     default:
@@ -112,12 +122,8 @@ function SearchBar({ inputSearch }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  globalState: state.reducer,
-});
-
 SearchBar.propTypes = {
   inputSearch: propTypes.string,
 }.isRequired;
 
-export default connect(mapStateToProps)(SearchBar);
+export default SearchBar;
