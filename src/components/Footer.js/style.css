@@ -1,6 +1,6 @@
 .footer-container {
+  bottom: 0;
   display: flex;
   justify-content: space-between;
   position: fixed;
-  bottom: 0px;
 }
