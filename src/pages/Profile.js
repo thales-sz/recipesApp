@@ -1,23 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer.js';
 
-class Profile extends Component {
-  render() {
-    return (
-      <div>
-        <Header title="Profile" />
-        <Footer />
-      </div>
-    );
-  }
+function Profile() {
+  const { email } = JSON.parse(localStorage.getItem('user'));
+  return (
+    <div>
+      <Header title="Profile" />
+      <h3 data-testid="profile-email">{email}</h3>
+      <button type="button" data-testid="profile-done-btn">Done Recipes</button>
+      <button type="button" data-testid="profile-favorite-btn">Favorite Recipes</button>
+      <button type="button" data-testid="profile-logout-btn">Logout</button>
+      <Footer />
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => ({
-  state,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

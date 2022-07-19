@@ -14,7 +14,6 @@ function FoodCards() {
       const categorys = await getAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
       dispatch(addRecipeFoods(foods));
       setCategoryCategoryFoods(categorys.meals);
-      return foods;
     };
     setFoods();
   }, [dispatch]);
@@ -29,7 +28,7 @@ function FoodCards() {
   const FIVE = 5;
   const category = arrayCategoryFoods?.slice(0, FIVE);
   const foodsArray = globalState.foods?.slice(0, TWELVE);
-
+  console.log(foodsArray);
   return (
     <div>
       <div>
