@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
-import { renderWithRouterAndStore } from './testConfig'
+import App from '../App';
+import { renderWithRouterAndStore } from '../testConfig';
 
 describe('1 - Página de Login', () => {
   test('Espera os inputs de email e senha e o botão com o texto \'Enter\'', () => {
