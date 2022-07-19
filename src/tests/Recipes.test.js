@@ -13,7 +13,7 @@ describe('Página de Recipes', () => {
         expect(titleHeader).toBeInTheDocument(); 
     });
 
-    test('Verifica se na página inicial de Receitas possui botão de categoria e  ao clicar em Drinks ele vai para rota /drinks', async () => {
+    test('Verifica se na página inicial de Receitas possui botão de categoria e ao clicar em Drinks ele vai para rota /drinks', async () => {
         jest.spyOn(global, 'fetch');
         const {history} = renderWithRouterAndStore(<App />);
         const btnLogin = screen.getByTestId('login-submit-btn');
