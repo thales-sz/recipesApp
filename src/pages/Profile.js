@@ -4,7 +4,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer.js';
 
 function Profile() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const userEmail = JSON.parse(localStorage.getItem('user'));
   const history = useHistory();
 
   const handleClick = ({ target: { id } }) => {
@@ -26,7 +26,7 @@ function Profile() {
     <div>
       <Header title="Profile" />
       <div className="profile-container">
-        <h3 data-testid="profile-email">{email}</h3>
+        <h3 data-testid="profile-email">{userEmail?.email}</h3>
         <button
           type="button"
           id="done-recipes"
