@@ -14,8 +14,7 @@ function RecipeDetails({ match: { params: { id }, path } }) {
     };
     if (path === '/drinks/:id') {
       return getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
-    }
-    getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
+    } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
   }, [id, path]);
 
   return (
