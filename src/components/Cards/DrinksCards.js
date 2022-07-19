@@ -7,17 +7,27 @@ function DrinksCards() {
   const dispatch = useDispatch();
   const [arrayCategoryDrinks, setCategoryCategoryDrinks] = useState();
   const globalState = useSelector((state) => state.reducer);
+  const [drinkCategorySearch, setDrinkCategorySearch] = useState('');
+  const FIVE = 5;
 
   useEffect(() => {
-    const getDrinks = async () => {
-      const drinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const categorysDrinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    const getDrinks = async (endpoint) => {
+      const drinks = await getAPI(`${endpoint}${drinkCategorySearch}`);
       dispatch(addRecipeDrinks(drinks));
-      setCategoryCategoryDrinks(categorysDrinks.drinks);
-      return drinks;
     };
-    getDrinks();
-  }, [dispatch]);
+    if (!drinkCategorySearch) {
+      return getDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    }
+    getDrinks('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=');
+  }, [dispatch, drinkCategorySearch]);
+
+  useEffect(() => {
+    const getDrinksCategorys = async () => {
+      const categorysDrinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+      setCategoryCategoryDrinks(categorysDrinks.drinks?.slice(0, FIVE));
+    };
+    getDrinksCategorys();
+  }, []);
 
   const dataTestCard = (index) => `${index}-recipe-card`;
   const imageCard = (food) => `${food.strDrinkThumb}`;
@@ -25,20 +35,31 @@ function DrinksCards() {
   const dataTestImg = (index) => `${index}-card-img`;
   const dataTestCat = (cat) => `${cat}-category-filter`;
 
-  const TWELVE = 12;
-  const drinksArray = globalState.drinks?.slice(0, TWELVE);
-  const FIVE = 5;
-  const categoryFiveDrinks = arrayCategoryDrinks?.slice(0, FIVE);
+  const drinksArray = globalState.drinks;
+  const categoryFiveDrinks = arrayCategoryDrinks;
+
+  const onSearchChange = (value) => {
+    if (value.strCategory === drinkCategorySearch) {
+      return setDrinkCategorySearch('');
+    } setDrinkCategorySearch(value.strCategory);
+  };
 
   return (
     <div>
       <div>
-        <button type="button" data-testid="all-category">All</button>
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ () => setDrinkCategorySearch('') }
+        >
+          All
+        </button>
         {categoryFiveDrinks?.map((cat, index) => (
           <button
             type="button"
             key={ index }
             data-testid={ dataTestCat(cat.strCategory) }
+            onClick={ () => onSearchChange(cat) }
           >
             {cat.strCategory}
           </button>

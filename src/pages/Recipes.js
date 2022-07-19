@@ -10,7 +10,7 @@ import Header from '../components/Header/Header';
 function Recipes() {
   const history = useHistory();
   const globalState = useSelector((state) => state.reducer);
-  const [foodOrDrink, setFoodOrDrink] = useState(false);
+  const [foodOrDrink, setFoodOrDrink] = useState(true);
 
   useEffect(() => {
     const { foods, drinks } = globalState;
