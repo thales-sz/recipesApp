@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAPI } from '../../helpers';
 import { addRecipeFoods } from '../../redux/actions';
 
 function FoodCards() {
   const dispatch = useDispatch();
-  const [arrayFoods, setArrayFoods] = useState();
   const [arrayCategoryFoods, setCategoryCategoryFoods] = useState();
+  const globalState = useSelector((state) => state.reducer);
+
   useEffect(() => {
-    const getFoods = async () => {
+    const setFoods = async () => {
       const foods = await getAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       const categorys = await getAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
       dispatch(addRecipeFoods(foods));
       setCategoryCategoryFoods(categorys.meals);
-      setArrayFoods(foods.meals);
       return foods;
     };
-    return getFoods();
+    setFoods();
   }, [dispatch]);
 
   const dataTestCard = (index) => `${index}-recipe-card`;
@@ -27,14 +27,14 @@ function FoodCards() {
 
   const TWELVE = 12;
   const FIVE = 5;
-  const twelve = arrayFoods?.slice(0, TWELVE);
-  const categoryFive = arrayCategoryFoods?.slice(0, FIVE);
+  const category = arrayCategoryFoods?.slice(0, FIVE);
+  const foodsArray = globalState.foods?.slice(0, TWELVE);
 
   return (
     <div>
       <div>
         <button type="button" data-testid="all-category">All</button>
-        {categoryFive?.map((cat, index) => (
+        {category?.map((cat, index) => (
           <button
             type="button"
             key={ index }
@@ -44,7 +44,7 @@ function FoodCards() {
           </button>
         ))}
       </div>
-      { twelve?.map((food, index) => (
+      { foodsArray?.map((food, index) => (
         <section
           key={ food.idMeal }
           data-testid={ dataTestCard(index) }

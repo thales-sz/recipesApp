@@ -5,13 +5,12 @@ import DrinksCards from '../components/Cards/DrinksCards';
 import FoodCards from '../components/Cards/FoodCards';
 
 import Footer from '../components/Footer.js';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 
 function Recipes() {
   const history = useHistory();
   const globalState = useSelector((state) => state.reducer);
   const [foodOrDrink, setFoodOrDrink] = useState(false);
-  console.log('globalState no Recipes:', globalState);
 
   useEffect(() => {
     const { foods, drinks } = globalState;

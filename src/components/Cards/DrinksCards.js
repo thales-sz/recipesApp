@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
 
 function DrinksCards() {
   const dispatch = useDispatch();
-  const [arrayDrinks, setArrayDrinks] = useState();
   const [arrayCategoryDrinks, setCategoryCategoryDrinks] = useState();
+  const globalState = useSelector((state) => state.reducer);
 
   useEffect(() => {
     const getDrinks = async () => {
       const drinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
       const categorysDrinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
       dispatch(addRecipeDrinks(drinks));
-      setArrayDrinks(drinks.drinks);
       setCategoryCategoryDrinks(categorysDrinks.drinks);
       return drinks;
     };
-    return getDrinks();
+    getDrinks();
   }, [dispatch]);
 
   const dataTestCard = (index) => `${index}-recipe-card`;
@@ -27,7 +26,7 @@ function DrinksCards() {
   const dataTestCat = (cat) => `${cat}-category-filter`;
 
   const TWELVE = 12;
-  const twelveDrinks = arrayDrinks?.slice(0, TWELVE);
+  const drinksArray = globalState.drinks?.slice(0, TWELVE);
   const FIVE = 5;
   const categoryFiveDrinks = arrayCategoryDrinks?.slice(0, FIVE);
 
@@ -45,7 +44,7 @@ function DrinksCards() {
           </button>
         ))}
       </div>
-      { twelveDrinks?.map((drink, index) => (
+      { drinksArray?.map((drink, index) => (
         <section
           key={ drink.idDrink }
           data-testid={ dataTestCard(index) }

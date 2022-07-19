@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getAPI } from '../helpers';
-import { addRecipeDrinks, addRecipeFoods } from '../redux/actions';
+import { getAPI } from '../../helpers';
+import { addRecipeDrinks, addRecipeFoods } from '../../redux/actions';
 
 function SearchBar({ inputSearch }) {
   const [radioState, setRadioState] = useState('');
@@ -20,7 +20,7 @@ function SearchBar({ inputSearch }) {
   }, [history.location.pathname]);
 
   useEffect(() => {
-    const { foods, drinks } = globalState;
+    const { drinks, foods } = globalState;
     if (foodOrDrink && foods?.length === 1) history.push(`/foods/${foods[0].idMeal}`);
     if (!foodOrDrink && drinks?.length === 1) {
       history.push(`/drinks/${drinks[0].idDrink}`);
@@ -31,45 +31,65 @@ function SearchBar({ inputSearch }) {
     setRadioState(id);
   };
 
+  const verifyQuantity = (response) => {
+    console.log(response.meals);
+    if (response.meals === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return { meals: [] };
+    }
+    if (response.drinks === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return { drinks: [] };
+    }
+    return response;
+  };
+
   const setFoods = async () => {
     let searchEndpoint;
+    let responseAPI;
     switch (radioState) {
     default:
       searchEndpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputSearch}`;
-      dispatch(addRecipeFoods(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeFoods(verifyQuantity(responseAPI)));
       break;
     case 'Name':
       searchEndpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`;
-      dispatch(addRecipeFoods(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeFoods(verifyQuantity(responseAPI)));
       break;
     case 'First letter':
       if (inputSearch.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
       searchEndpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`;
-      dispatch(addRecipeFoods(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeFoods(verifyQuantity(responseAPI)));
       break;
     }
   };
 
   const setDrinks = async () => {
-    console.log(globalState);
     let searchEndpoint;
+    let responseAPI;
     switch (radioState) {
     default:
       searchEndpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`;
-      dispatch(addRecipeDrinks(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeDrinks(verifyQuantity(responseAPI)));
       break;
     case 'Name':
       searchEndpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`;
-      dispatch(addRecipeDrinks(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeDrinks(verifyQuantity(responseAPI)));
       break;
     case 'First letter':
       if (inputSearch.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
       searchEndpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`;
-      dispatch(addRecipeDrinks(await getAPI(searchEndpoint)));
+      responseAPI = await getAPI(searchEndpoint);
+      dispatch(addRecipeDrinks(verifyQuantity(responseAPI)));
       break;
     }
   };
