@@ -14,7 +14,6 @@ function FoodCards() {
       const categorys = await getAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
       dispatch(addRecipeFoods(foods));
       setCategoryCategoryFoods(categorys.meals);
-      return foods;
     };
     setFoods();
   }, [dispatch]);
