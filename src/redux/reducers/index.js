@@ -6,15 +6,17 @@ const INITIAL_STATE = {
   drinks: [],
 };
 
+const TWELVE = 12;
+
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ADD_RECIPE_FOODS: return {
     ...state,
-    foods: action.payload.meals,
+    foods: action.payload.meals.slice(0, TWELVE),
   };
   case ADD_RECIPE_DRINKS: return {
     ...state,
-    drinks: action.payload.drinks,
+    drinks: action.payload?.drinks.slice(0, TWELVE),
   };
   default:
     return state;
