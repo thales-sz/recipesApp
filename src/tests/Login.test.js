@@ -9,7 +9,7 @@ describe('1 - Página de Login', () => {
     renderWithRouterAndStore(<App />);
 
     const email = screen.getByTestId('email-input');
-    const password = screen.getByTestId('email-input');
+    const password = screen.getByTestId('password-input');
     const btnEnter = screen.getByText(/Enter/i);
 
 

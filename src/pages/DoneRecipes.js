@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header/Header';
 
-function DoneRecipes(props) {
-  console.log(props);
+function DoneRecipes() {
   return (
     <Header title="Done Recipes" />
   );

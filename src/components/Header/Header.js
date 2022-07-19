@@ -45,7 +45,7 @@ function Header({ title, foodOrDrink }) {
           </button>
         )}
       {isSearchEnabled && (
-        <>
+        <div>
           <input
             type="text"
             data-testid="search-input"
@@ -53,7 +53,7 @@ function Header({ title, foodOrDrink }) {
             onChange={ handleChange }
           />
           <SearchBar inputSearch={ inputSearch } />
-        </>
+        </div>
       )}
     </header>
   );
