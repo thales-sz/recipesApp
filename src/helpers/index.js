@@ -6,7 +6,7 @@ export const getAPI = async (url) => {
     const response = await fetch(url);
     const dataAPI = await response.json();
     return dataAPI;
-  } catch (error) {
-    throw new Error(error);
+  } catch (e) {
+    console.log(e);
   }
 };

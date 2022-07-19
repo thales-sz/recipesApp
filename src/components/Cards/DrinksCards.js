@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
 
 function DrinksCards() {
   const dispatch = useDispatch();
-  const [arrayDrinks, setArrayDrinks] = useState();
+  const globalState = useSelector((state) => state.reducer);
+
   useEffect(() => {
     const getDrinks = async () => {
       const drinks = await getAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
       dispatch(addRecipeDrinks(drinks));
-      setArrayDrinks(drinks.drinks);
-      return drinks;
     };
-    return getDrinks();
+    getDrinks();
   }, [dispatch]);
 
   const dataTestCard = (index) => `${index}-recipe-card`;
@@ -22,11 +21,11 @@ function DrinksCards() {
   const dataTestImg = (index) => `${index}-card-img`;
 
   const TWELVE = 12;
-  const twelveDrinks = arrayDrinks?.slice(0, TWELVE);
+  const drinksArray = globalState.drinks?.slice(0, TWELVE);
 
   return (
     <div>
-      { twelveDrinks?.map((drink, index) => (
+      { drinksArray?.map((drink, index) => (
         <section
           key={ drink.idDrink }
           data-testid={ dataTestCard(index) }
