@@ -28,7 +28,7 @@ function FoodCards() {
   const FIVE = 5;
   const category = arrayCategoryFoods?.slice(0, FIVE);
   const foodsArray = globalState.foods?.slice(0, TWELVE);
-  console.log(foodsArray);
+
   return (
     <div>
       <div>
