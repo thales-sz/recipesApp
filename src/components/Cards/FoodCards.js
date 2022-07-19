@@ -34,6 +34,7 @@ function FoodCards() {
   const dataTestName = (index) => `${index}-card-name`;
   const dataTestImg = (index) => `${index}-card-img`;
   const dataTestCat = (cat) => `${cat}-category-filter`;
+  const detailsCard = (id) => `foods/${id.idMeal}`;
 
   const category = arrayCategoryFoods;
   const foodsArray = globalState.foods;
@@ -66,9 +67,10 @@ function FoodCards() {
         ))}
       </div>
       { foodsArray?.map((food, index) => (
-        <section
+        <a
           key={ food.idMeal }
           data-testid={ dataTestCard(index) }
+          href={ detailsCard(food) }
         >
           <img
             data-testid={ dataTestImg(index) }
@@ -77,7 +79,7 @@ function FoodCards() {
             width="50"
           />
           <p data-testid={ dataTestName(index) }>{food.strMeal}</p>
-        </section>
+        </a>
       ))}
     </div>
   );
