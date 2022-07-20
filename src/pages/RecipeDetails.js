@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import Food from '../components/CardDetails/Food';
-import Drinks from '../components/Cards/DrinksCards';
 import { getAPI } from '../helpers';
+import FoodDetails from '../components/CardDetails/FoodDetails';
+import DrinksDetails from '../components/CardDetails/DrinksDetails';
 
 function RecipeDetails({ match: { params: { id }, path } }) {
   const [data, setData] = useState({});
@@ -14,6 +13,7 @@ function RecipeDetails({ match: { params: { id }, path } }) {
       console.log(recipe);
       setData(recipe);
     };
+
     if (path === '/drinks/:id') {
       return getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
     } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
@@ -21,18 +21,14 @@ function RecipeDetails({ match: { params: { id }, path } }) {
   return (
     <article>
       <h2>RecipeDetails</h2>
-      {!path === '/drinks/' ? <Food data={ data } /> : <Drinks data={ data } />}
+      {
+        path === '/drinks/:id'
+          ? <DrinksDetails recipeDetails={ data.drinks } />
+          : <FoodDetails recipeDetails={ data.meals } />
+      }
     </article>
   );
 }
-
-RecipeDetails.propTypes = {};
-
-const mapStateToProps = (state) => ({
-  state,
-});
-
-const mapDispatchToProps = {};
 
 RecipeDetails.propTypes = {
   match: PropTypes.shape({
@@ -41,4 +37,4 @@ RecipeDetails.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetails);
+export default RecipeDetails;
