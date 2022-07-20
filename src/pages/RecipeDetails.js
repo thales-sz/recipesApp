@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import Food from '../components/CardDetails/Food';
-import Drink from '../components/CardDetails/Drinks';
 import { getAPI } from '../helpers';
+import FoodDetails from '../components/CardDetails/FoodDetails';
+import DrinksDetails from '../components/CardDetails/DrinksDetails';
 
 function RecipeDetails({ match: { params: { id }, path } }) {
   const [data, setData] = useState(false);
@@ -14,6 +14,7 @@ function RecipeDetails({ match: { params: { id }, path } }) {
       console.log(recipe);
       setData(recipe);
     };
+
     if (path === '/drinks/:id') {
       return getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
     } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
@@ -22,9 +23,11 @@ function RecipeDetails({ match: { params: { id }, path } }) {
   return (
     <article>
       <h2>RecipeDetails</h2>
-      {path === '/drinks/:id' ? (
-        <Drink data={ data } />)
-        : <Food /> }
+      {
+        path === '/drinks/:id'
+          ? <DrinksDetails recipeDetails={ data.drinks } />
+          : <FoodDetails recipeDetails={ data.meals } />
+      }
     </article>
   );
 }
