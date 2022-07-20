@@ -1,9 +1,9 @@
 import React from 'react';
 
-
-function Drink({data}) {
+function Drink({ data, match: { path } }) {
+  console.log(data);
   return (
-    {data.meals.map((e) => (
+    data.meals.map((e) => (
       <div key={ e.idMeal }>
         <h1 data-testid="recipe-title">{ e.strMeal }</h1>
         <p data-testid="recipe-category">{ e.strCategory }</p>
@@ -46,7 +46,7 @@ function Drink({data}) {
 
         {console.log(e.strYoutube)}
       </div>
-    ))}
+    ))
   );
 }
 
