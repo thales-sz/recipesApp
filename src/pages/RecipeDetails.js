@@ -10,7 +10,6 @@ function RecipeDetails({ match: { params: { id }, path } }) {
   useEffect(() => {
     const getRecipeDetail = async (endpoint) => {
       const recipe = await getAPI(`${endpoint}${id}`);
-      console.log(recipe);
       setData(recipe);
     };
 
@@ -23,8 +22,8 @@ function RecipeDetails({ match: { params: { id }, path } }) {
       <h2>RecipeDetails</h2>
       {
         path === '/drinks/:id'
-          ? <DrinksDetails recipeDetails={ data.drinks } />
-          : <FoodDetails recipeDetails={ data.meals } />
+          ? <DrinksDetails recipeDetails={ data?.drinks } />
+          : <FoodDetails recipeDetails={ data?.meals } />
       }
     </article>
   );

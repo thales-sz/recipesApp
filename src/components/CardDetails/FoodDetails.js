@@ -1,44 +1,98 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAPI } from '../../helpers';
+import { addRecipeDrinks } from '../../redux/actions';
 
-function FoodDetails({ recipeDetails }) {
-  const e = recipeDetails ? recipeDetails[0] : recipeDetails;
+const URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
+export default function FoodDetails({ recipeDetails }) {
+  const createArray = () => Array.from({ length: 20 }, (_, i) => i + 1);
+  const arrayAux = createArray();
+  const dispatch = useDispatch();
+  const { drinks } = useSelector((state) => state.reducer);
+
+  const data = recipeDetails ? recipeDetails[0] : recipeDetails;
+
+  useEffect(() => {
+    const getDrinksRecomendations = async () => {
+      const dataDrinks = await getAPI(URL_DRINKS);
+      console.log(dataDrinks);
+      dispatch(addRecipeDrinks(dataDrinks));
+    };
+    getDrinksRecomendations();
+  }, [dispatch]);
+
+  const dataTestIdIngredients = (index) => `${index}-ingredient-name-and-measure`;
+  const strIngredient = (index) => `strIngredient${index}`;
+  const srtMeansure = (index) => `strMeasure${index}`;
+  const dataTestCard = (index) => `${index}-recomendation-card`;
+  const detailsCard = (id) => `drinks/${id.idDrink}`;
+  const imageCard = (food) => `${food.strDrinkThumb}`;
 
   return (
-    <div>
-      {console.log(recipeDetails)}
-      <h1 data-testid="recipe-title">{e?.strMeal}</h1>
-      <p data-testid="recipe-category">{e?.strCategory}</p>
+    <>
+      <h1 data-testid="recipe-title">{data?.strMeal}</h1>
+      <p data-testid="recipe-category">{data?.strCategory}</p>
       <br />
       <img
-        src={ e?.strMealThumb }
-        alt={ e?.strMeal }
+        src={ data?.strMealThumb }
+        alt={ data?.strMeal }
         width="200px"
         data-testid="recipe-photo"
       />
       <div className="ingredients-container">
-        <h3>Ingredientes:</h3>
-        <p data-testid="1-ingredient-name-and-measure">{e?.strIngredient1}</p>
-        <p data-testid="2-ingredient-name-and-measure">{e?.strIngredient2}</p>
-        <p data-testid="3-ingredient-name-and-measure">{e?.strIngredient3}</p>
-        <p data-testid="4-ingredient-name-and-measure">{e?.strIngredient4}</p>
-        <p data-testid="5-ingredient-name-and-measure">{e?.strIngredient5}</p>
-        <p data-testid="6-ingredient-name-and-measure">{e?.strIngredient6}</p>
-        <p data-testid="7-ingredient-name-and-measure">{e?.strIngredient7}</p>
-        <p data-testid="8-ingredient-name-and-measure">{e?.strIngredient8}</p>
-        <p data-testid="9-ingredient-name-and-measure">{e?.strIngredient9}</p>
-        <p data-testid="10-ingredient-name-and-measure">{e?.strIngredient10}</p>
-        <p data-testid="11-ingredient-name-and-measure">{e?.strIngredient11}</p>
-        <p data-testid="12-ingredient-name-and-measure">{e?.strIngredient12}</p>
-        <p data-testid="13-ingredient-name-and-measure">{e?.strIngredient13}</p>
-        <br />
+        <h3>Ingredientes</h3>
+        <ul>
+          {recipeDetails?.map((dataInfo) => arrayAux.map(
+            (number) => dataInfo[strIngredient(number)] !== '' && (
+              <li key={ number } data-testid={ dataTestIdIngredients(number - 1) }>
+                {dataInfo[srtMeansure(number)]}
+                {' '}
+                {dataInfo[strIngredient(number)]}
+              </li>
+            ),
+          ))}
+        </ul>
       </div>
-    </div>
+      <div className="instructions-container">
+        <h3>Instructions</h3>
+        <p data-testid="instructions">{data?.strInstructions}</p>
+      </div>
+      <div className="video-container">
+        <iframe
+          data-testid="video"
+          width="560"
+          height="315"
+          src={ String(data?.strYoutube).replace('watch?v=', 'embed/') }
+          title={ `How to make ${data?.strMeal}` }
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+          gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <div className="recomendations-container">
+        <h3>Recomendations</h3>
+        { drinks?.map((drink, index) => (
+          <a
+            key={ drink.idDrink }
+            data-testid={ dataTestCard(index) }
+            href={ detailsCard(drink) }
+          >
+            <img
+              src={ imageCard(drink) }
+              alt="drink"
+              width="50"
+            />
+            <p>{drink.strDrink}</p>
+          </a>
+        ))}
+      </div>
+    </>
   );
 }
 
 FoodDetails.propTypes = {
   recipeDetails: PropTypes.arrayOf(PropTypes.object.isRequired),
 }.isRequired;
-
-export default FoodDetails;
