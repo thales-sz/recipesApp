@@ -51,7 +51,7 @@ describe('Teste do Header', () => {
     fireEvent.click(searchBtn);
     
     const searchInput = screen.getByTestId(/search-input/i);
-    fireEvent.change(searchInput, {target: {value: 'xablau'}});
+    fireEvent.change(searchInput, {target: {value: 'Mbuzi Choma (Roasted Goat)'}});
     const searchIngredientRadio = screen.getByTestId(/ingredient-search-radio/i);
     const searchFirstLetterRadio = screen.getByTestId(/first-letter-search-radio/i);
     const btnBuscar = screen.getByTestId(/exec-search-btn/i);
