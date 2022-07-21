@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import DrinksCards from '../components/Cards/DrinksCards';
 import FoodCards from '../components/Cards/FoodCards';
 
-import Footer from '../components/Footer.js';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 
 function Recipes() {

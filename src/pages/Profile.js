@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header/Header';
-import Footer from '../components/Footer.js';
+import Footer from '../components/Footer/Footer';
 
 function Profile() {
   const userEmail = JSON.parse(localStorage.getItem('user'));
