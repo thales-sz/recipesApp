@@ -8,7 +8,7 @@ function Ingredients({ ingredient, index }) {
         <input type="checkbox" />
         {ingredient[1]}
       </div>
-    ) : (null)
+    ) : null
   );
 }
 
