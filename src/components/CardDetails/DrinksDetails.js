@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 function DrinksDetails({ recipeDetails }) {
   const e = recipeDetails ? recipeDetails[0] : recipeDetails;
-  console.log(e);
   return (
     <div>
       <h1 data-testid="recipe-title">{e?.strDrink}</h1>
