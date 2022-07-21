@@ -32,7 +32,6 @@ function SearchBar({ inputSearch }) {
   };
 
   const verifyQuantity = (response) => {
-    console.log(response.meals);
     if (response.meals === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       return { meals: [] };
