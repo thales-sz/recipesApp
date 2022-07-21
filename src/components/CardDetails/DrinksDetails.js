@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getAPI } from '../../helpers';
 import { addRecipeFoods } from '../../redux/actions';
@@ -39,46 +40,25 @@ export default function DrinksDetails({ recipeDetails }) {
       <img
         src={ data?.strDrinkThumb }
         alt={ data?.strDrink }
+=======
+import { Link } from 'react-router-dom';
+
+function DrinksDetails({ recipeDetails }) {
+  const e = recipeDetails ? recipeDetails[0] : recipeDetails;
+  console.log(e);
+  return (
+    <div>
+      <h1 data-testid="recipe-title">{e?.strDrink}</h1>
+      <p data-testid="recipe-category">{e?.strCategory}</p>
+      <br />
+      <img
+        src={ e?.strDrinkThumb }
+        alt={ e?.strDrink }
+
         width="200px"
         data-testid="recipe-photo"
       />
       <div className="ingredients-container">
-        <h3>Ingredients</h3>
-        <ul>
-          {recipeDetails?.map((dataInfo) => arrayAux.map(
-            (number) => dataInfo[strIngredient(number)] !== null && (
-              <li
-                key={ number }
-                data-testid={ dataTestIdIngredients(number - 1) }
-              >
-                {dataInfo[srtMeansure(number)]}
-                {' - '}
-                {dataInfo[strIngredient(number)]}
-              </li>
-            ),
-          ))}
-        </ul>
-      </div>
-      <div className="instructions-container">
-        <h3>Instructions</h3>
-        <p data-testid="instructions">{data?.strInstructions}</p>
-      </div>
-      <div className="recomendations-container">
-        <h3>Recomendations</h3>
-        ~
-        {foods?.map((drink, index) => (
-          <a
-            key={ drink.idDrink }
-            data-testid={ dataTestCard(index) }
-            href={ detailsCard(drink) }
-          >
-            <img src={ imageCard(drink) } alt="drink" width="50" />
-            <p>{drink.strDrink}</p>
-          </a>
-        ))}
-      </div>
-      {/* BUTTON */}
-    </>
   );
 }
 

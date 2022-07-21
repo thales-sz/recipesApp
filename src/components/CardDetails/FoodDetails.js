@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
@@ -34,6 +35,16 @@ export default function FoodDetails({ recipeDetails }) {
     <>
       <h1 data-testid="recipe-title">{data?.strMeal}</h1>
       <p data-testid="recipe-category">{data?.strCategory}</p>
+
+import { Link } from 'react-router-dom';
+
+function FoodDetails({ recipeDetails }) {
+  const e = recipeDetails ? recipeDetails[0] : recipeDetails;
+  return (
+    <div>
+      <h1 data-testid="recipe-title">{e?.strMeal}</h1>
+      <p data-testid="recipe-category">{e?.strCategory}</p>
+
       <br />
       <img
         src={ data?.strMealThumb }
@@ -55,41 +66,6 @@ export default function FoodDetails({ recipeDetails }) {
           ))}
         </ul>
       </div>
-      <div className="instructions-container">
-        <h3>Instructions</h3>
-        <p data-testid="instructions">{data?.strInstructions}</p>
-      </div>
-      <div className="video-container">
-        <iframe
-          data-testid="video"
-          width="560"
-          height="315"
-          src={ String(data?.strYoutube).replace('watch?v=', 'embed/') }
-          title={ `How to make ${data?.strMeal}` }
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-          gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-      <div className="recomendations-container">
-        <h3>Recomendations</h3>
-        { drinks?.map((drink, index) => (
-          <a
-            key={ drink.idDrink }
-            data-testid={ dataTestCard(index) }
-            href={ detailsCard(drink) }
-          >
-            <img
-              src={ imageCard(drink) }
-              alt="drink"
-              width="50"
-            />
-            <p>{drink.strDrink}</p>
-          </a>
-        ))}
-      </div>
-    </>
   );
 }
 
