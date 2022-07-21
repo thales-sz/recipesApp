@@ -13,7 +13,7 @@ const login = () => {
     fireEvent.click(btnLogin);
 }
 
-describe('Teste o SearchBar', () => {
+describe('Teste do SearchBar', () => {
   test('1. Teste se ao pesquisar Corba, selecionando o input Name, será redirecionado para a página de detalhes da receita pesquisada', async () => {
     const { history } = renderWithRouterAndStore(<App />);
     login();
