@@ -233,4 +233,3 @@ describe('Teste o SearchBar', () => {
     expect(global.alert).toHaveBeenCalled();
   });
 })
-
