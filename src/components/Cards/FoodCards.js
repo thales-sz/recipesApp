@@ -34,7 +34,7 @@ function FoodCards() {
   const dataTestName = (index) => `${index}-card-name`;
   const dataTestImg = (index) => `${index}-card-img`;
   const dataTestCat = (cat) => `${cat}-category-filter`;
-  const detailsCard = (id) => `foods/${id.idMeal}`;
+  const detailsCard = (id) => `/foods/${id.idMeal}`;
 
   const category = arrayCategoryFoods;
   const foodsArray = globalState.foods;

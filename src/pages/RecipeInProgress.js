@@ -1,17 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import FoodProgress from '../components/CardProgress/FoodProgress';
+import DrinksProgress from '../components/CardProgress/DrinksProgress';
 
-function RecipeInProgress(props) {
-  console.log(props);
+function RecipeInProgress({ match: { path } }) {
   return (
-    <div>RecipeInProgress</div>
+    <section>
+      <h2>recipe in progress</h2>
+      {path === '/drinks/:id/in-progress' ? (
+        <DrinksProgress />
+      )
+        : (
+          <FoodProgress />
+        ) }
+    </section>
   );
 }
 
-const mapStateToProps = (state) => ({
-  state,
-});
+RecipeInProgress.propTypes = {
+  match: PropTypes.object,
+}.isRequired;
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeInProgress);
+export default (RecipeInProgress);

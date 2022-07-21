@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function FoodDetails({ recipeDetails }) {
   const e = recipeDetails ? recipeDetails[0] : recipeDetails;
-
   return (
     <div>
-      {console.log(recipeDetails)}
       <h1 data-testid="recipe-title">{e?.strMeal}</h1>
       <p data-testid="recipe-category">{e?.strCategory}</p>
       <br />
@@ -33,6 +32,7 @@ function FoodDetails({ recipeDetails }) {
         <p data-testid="13-ingredient-name-and-measure">{e?.strIngredient13}</p>
         <br />
       </div>
+      <Link to={ `/foods/${e?.idMeal}/in-progress` }>PAGINA PROGRESSO</Link>
     </div>
   );
 }
