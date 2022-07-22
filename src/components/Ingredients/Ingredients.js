@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
 import { saveIngredient, recipesInProgressStruture } from '../../helpers';
+import './Ingredients.css';
 
 function Ingredients({ ingredient, index }) {
   const [checkedState, setCheckedState] = useState(false);
@@ -16,17 +17,6 @@ function Ingredients({ ingredient, index }) {
     }
   }, []);
 
-  useEffect(() => {
-    const { meals, cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (pathname.includes('/drinks')) {
-      if (cocktails !== undefined) {
-        return cocktails[id]?.includes(ingredient[1]) && setCheckedState(true);
-      }
-    } else if (meals !== undefined) {
-      return meals[id]?.includes(ingredient[1]) && setCheckedState(true);
-    }
-  }, [pathname, ingredient, checkedState, id]);
-
   const handleChange = ({ target }) => {
     setCheckedState(!checkedState);
     saveIngredient(target.parentNode, pathname, id);
@@ -35,16 +25,22 @@ function Ingredients({ ingredient, index }) {
   return (
     ingredient[1] ? (
       <div
-        style={ checkedState
-          ? { textDecoration: 'line-through' }
-          : { textDecoration: '' } }
+        style={ pathname.includes('/drinks') && JSON.parse(localStorage
+          .getItem('inProgressRecipes'))?.cocktails[id]?.includes(ingredient[1]) ? (
+            { textDecoration: 'line-through' }
+          ) : ({ textDecoration: '' }) }
         data-testid={ `${index}-ingredient-step` }
-        htmlFor={ `${index}-ingredient-step` }
       >
         <input
-          id={ `${index}-ingredient-step` }
+          className="input-ingredient"
           type="checkbox"
-          checked={ checkedState }
+          checked={ pathname.includes('/drinks') ? (
+            JSON.parse(localStorage
+              .getItem('inProgressRecipes'))?.cocktails[id]?.includes(ingredient[1])
+          ) : (
+            JSON.parse(localStorage
+              .getItem('inProgressRecipes'))?.meals[id]?.includes(ingredient[1])
+          ) }
           onChange={ handleChange }
         />
         {ingredient[1]}

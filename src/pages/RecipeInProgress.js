@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import FoodProgress from '../components/CardProgress/FoodProgress';
 import DrinksProgress from '../components/CardProgress/DrinksProgress';
 import { getAPI } from '../helpers';
 
-function RecipeInProgress({ match: { params: { id }, path } }) {
-  const [data, setData] = useState(false);
+function RecipeInProgress() {
+  const location = useLocation();
+  const path = location.pathname;
+  const [data, setData] = useState();
 
   useEffect(() => {
     const getRecipeDetail = async (endpoint) => {
-      console.log(`${endpoint}${id}`);
-      const recipe = await getAPI(`${endpoint}${id}`);
+      const recipe = await getAPI(`${endpoint}${path.split('/')[2]}`);
+      console.log(recipe, 'receitas');
       setData(recipe);
     };
-    if (path === '/drinks/:id/in-progress') {
+    if (path === `/drinks/${path.split('/')[2]}/in-progress`) {
       return getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
     } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
-  }, [id, path]);
-
+  }, [path]);
+  // console.log(data);
   return (
     <section>
-      <h2>recipe in progress</h2>
-      {path === '/drinks/:id/in-progress' ? (
+      {path === `/drinks/${path.split('/')[2]}/in-progress` ? (
         <DrinksProgress recipeProgress={ data?.drinks } />
       )
         : (
