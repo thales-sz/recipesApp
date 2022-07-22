@@ -4,10 +4,11 @@ import Ingredients from '../Ingredients/Ingredients';
 
 function FoodProgress({ recipeProgress }) {
   const recipe = recipeProgress ? recipeProgress[0] : recipeProgress;
-  const ingredients = recipe ? (
+  const aux = recipe ? (
     Object.entries(recipe)
       .filter((ingredient) => ingredient[0].includes('strIngredient'))
   ) : (null);
+  const ingredients = aux?.filter((ingr) => ingr[1] !== null);
   return (
     <section>
       <img src={ recipe?.strMealThumb } alt="receita" data-testid="recipe-photo" />
