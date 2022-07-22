@@ -1,14 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Ingredients from '../Ingredients/Ingredients';
+import FavoriteButton from '../ShareAndFavoriteButtons/FavoriteButton';
+import ShareButton from '../ShareAndFavoriteButtons/ShareButton';
+
+const copy = require('clipboard-copy');
 
 function DrinksProgress({ recipeProgress }) {
-  const recipe = recipeProgress ? recipeProgress[0] : recipeProgress;
+  const location = useLocation();
+  const recipe = recipeProgress ? recipeProgress[0] : null;
   const aux = recipe ? (
     Object.entries(recipe)
       .filter((ingredient) => ingredient[0].includes('strIngredient'))
   ) : (null);
   const ingredients = aux?.filter((ingr) => ingr[1] !== null);
+
+  const handleClickFavorite = () => {
+    console.log('oi');
+  };
+
+  const handleClickShare = async () => {
+    global.alert('Link copied!');
+    await copy(`http://localhost:3000${location.pathname}`);
+  };
+
   return (
     <section>
       <img
@@ -19,8 +35,12 @@ function DrinksProgress({ recipeProgress }) {
         height="155px"
       />
       <h2 data-testid="recipe-title">{recipe?.strDrink}</h2>
-      <button data-testid="share-btn" type="button">Share</button>
-      <button data-testid="favorite-btn" type="button">Favorite</button>
+      <button data-testid="share-btn" type="button" onClick={ handleClickShare }>
+        <ShareButton />
+      </button>
+      <button data-testid="favorite-btn" type="button" onClick={ handleClickFavorite }>
+        <FavoriteButton />
+      </button>
       <h2 data-testid="recipe-category">{recipe?.strCategory}</h2>
       {ingredients?.map(
         (ingredi, index) => (<Ingredients

@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { getAPI } from '../helpers';
 import FoodDetails from '../components/CardDetails/FoodDetails';
 import DrinksDetails from '../components/CardDetails/DrinksDetails';
 
 function RecipeDetails({ match: { params: { id }, path } }) {
   const [data, setData] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getRecipeDetail = async (endpoint) => {
@@ -17,7 +15,7 @@ function RecipeDetails({ match: { params: { id }, path } }) {
     if (path === '/drinks/:id') {
       getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
     } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
-  }, [id, path, dispatch]);
+  }, [id, path]);
 
   return (
     <article>

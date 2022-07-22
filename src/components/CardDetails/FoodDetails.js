@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
 
@@ -17,7 +18,6 @@ export default function FoodDetails({ recipeDetails }) {
   useEffect(() => {
     const getDrinksRecomendations = async () => {
       const dataDrinks = await getAPI(URL_DRINKS);
-      console.log(dataDrinks);
       dispatch(addRecipeDrinks(dataDrinks));
     };
     getDrinksRecomendations();
@@ -27,11 +27,11 @@ export default function FoodDetails({ recipeDetails }) {
   const strIngredient = (index) => `strIngredient${index}`;
   const srtMeansure = (index) => `strMeasure${index}`;
   const dataTestCard = (index) => `${index}-recomendation-card`;
-  const detailsCard = (id) => `drinks/${id.idDrink}`;
+  const drinkLink = (drink) => `/drinks/${drink}`;
   const imageCard = (food) => `${food.strDrinkThumb}`;
 
   return (
-    <>
+    <div>
       <h1 data-testid="recipe-title">{data?.strMeal}</h1>
       <p data-testid="recipe-category">{data?.strCategory}</p>
       <br />
@@ -67,7 +67,7 @@ export default function FoodDetails({ recipeDetails }) {
           src={ String(data?.strYoutube).replace('watch?v=', 'embed/') }
           title={ `How to make ${data?.strMeal}` }
           frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+          allow="accelerometer; clipboard-write; encrypted-media;
           gyroscope; picture-in-picture"
           allowFullScreen
         />
@@ -75,10 +75,10 @@ export default function FoodDetails({ recipeDetails }) {
       <div className="recomendations-container">
         <h3>Recomendations</h3>
         { drinks?.map((drink, index) => (
-          <a
-            key={ drink.idDrink }
+          <Link
+            key={ index }
             data-testid={ dataTestCard(index) }
-            href={ detailsCard(drink) }
+            to={ drinkLink(drink.idDrink) }
           >
             <img
               src={ imageCard(drink) }
@@ -86,10 +86,10 @@ export default function FoodDetails({ recipeDetails }) {
               width="50"
             />
             <p>{drink.strDrink}</p>
-          </a>
+          </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

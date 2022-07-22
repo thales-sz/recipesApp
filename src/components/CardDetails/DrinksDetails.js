@@ -1,38 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getAPI } from '../../helpers';
 import { addRecipeFoods } from '../../redux/actions';
 
 const URL_FOODS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
 export default function DrinksDetails({ recipeDetails }) {
+  const [data, setData] = useState();
   const createArray = () => Array.from({ length: 15 }, (_, i) => i + 1);
   const arrayAux = createArray();
   const dispatch = useDispatch();
   const { foods } = useSelector((state) => state.reducer);
 
-  const data = recipeDetails ? recipeDetails[0] : recipeDetails;
-
   useEffect(() => {
+    const epa = recipeDetails ? recipeDetails[0] : recipeDetails;
+    setData(epa);
     const getFoodsRecomendations = async () => {
       const dataFoods = await getAPI(URL_FOODS);
-      console.log(dataFoods);
       dispatch(addRecipeFoods(dataFoods));
     };
     getFoodsRecomendations();
-  }, [dispatch]);
+  }, [dispatch, recipeDetails]);
 
   const dataTestIdIngredients = (index) => `${index}-ingredient-name-and-measure`;
   const strIngredient = (index) => `strIngredient${index}`;
   const srtMeansure = (index) => `strMeasure${index}`;
   const dataTestCard = (index) => `${index}-recomendation-card`;
-  const detailsCard = (id) => `drinks/${id.idDrink}`;
-  const imageCard = (food) => `${food.strDrinkThumb}`;
+  const foodLink = (id) => `/foods/${id}`;
+  const imageCard = (food) => `${food.strMealThumb}`;
 
   return (
-    <>
-      {console.log(data)}
+    <div>
       <h1 data-testid="recipe-title">{data?.strDrink}</h1>
       <p data-testid="recipe-category">{data?.strAlcoholic}</p>
       <br />
@@ -43,6 +43,7 @@ export default function DrinksDetails({ recipeDetails }) {
         data-testid="recipe-photo"
       />
       <div className="ingredients-container">
+        {console.log(recipeDetails)}
         <h3>Ingredients</h3>
         <ul>
           {recipeDetails?.map((dataInfo) => arrayAux.map(
@@ -65,19 +66,22 @@ export default function DrinksDetails({ recipeDetails }) {
       </div>
       <div className="recomendations-container">
         <h3>Recomendations</h3>
-        {foods?.map((drink, index) => (
-          <a
-            key={ drink.idDrink }
+        { foods?.map((food, index) => (
+          <Link
+            key={ index }
             data-testid={ dataTestCard(index) }
-            href={ detailsCard(drink) }
+            to={ foodLink(food.idMeal) }
           >
-            <img src={ imageCard(drink) } alt="drink" width="50" />
-            <p>{drink.strDrink}</p>
-          </a>
+            <img
+              src={ imageCard(food) }
+              alt="food"
+              width="50"
+            />
+            <p>{food.strMeal}</p>
+          </Link>
         ))}
       </div>
-      {/* BUTTON */}
-    </>
+    </div>
   );
 }
 
