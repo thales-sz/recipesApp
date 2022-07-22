@@ -3,16 +3,12 @@ import React from 'react';
 import Ingredients from '../Ingredients/Ingredients';
 
 function DrinksProgress({ recipeProgress }) {
-  console.log(recipeProgress);
   const recipe = recipeProgress ? recipeProgress[0] : recipeProgress;
-  const ingredients = recipe ? (
+  const aux = recipe ? (
     Object.entries(recipe)
-      .filter((ingredient) => {
-        if (ingredient[1] !== '') {
-          return ingredient[0].includes('strIngredient');
-        } return null;
-      })
+      .filter((ingredient) => ingredient[0].includes('strIngredient'))
   ) : (null);
+  const ingredients = aux?.filter((ingr) => ingr[1] !== null);
   return (
     <section>
       <img src={ recipe?.strDrinkThumb } alt="receita" data-testid="recipe-photo" />
@@ -34,7 +30,7 @@ function DrinksProgress({ recipeProgress }) {
 }
 
 DrinksProgress.propTypes = {
-  data: PropTypes.object,
+  recipeProgress: PropTypes.object,
 }.isRequired;
 
 export default DrinksProgress;
