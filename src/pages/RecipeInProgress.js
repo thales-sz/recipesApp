@@ -20,7 +20,6 @@ function RecipeInProgress({ match: { params: { id }, path } }) {
 
   return (
     <section>
-      <h2>recipe in progress</h2>
       {path === '/drinks/:id/in-progress' ? (
         <DrinksProgress recipeProgress={ data?.drinks } />
       )

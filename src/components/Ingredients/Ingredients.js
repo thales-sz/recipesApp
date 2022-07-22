@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
 import { saveIngredient, recipesInProgressStruture } from '../../helpers';
+import './Ingredients.css';
 
 function Ingredients({ ingredient, index }) {
   const [checkedState, setCheckedState] = useState(false);
@@ -39,10 +40,9 @@ function Ingredients({ ingredient, index }) {
           ? { textDecoration: 'line-through' }
           : { textDecoration: '' } }
         data-testid={ `${index}-ingredient-step` }
-        htmlFor={ `${index}-ingredient-step` }
       >
         <input
-          id={ `${index}-ingredient-step` }
+          className="input-ingredient"
           type="checkbox"
           checked={ checkedState }
           onChange={ handleChange }

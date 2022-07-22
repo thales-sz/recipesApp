@@ -11,7 +11,13 @@ function FoodProgress({ recipeProgress }) {
   const ingredients = aux?.filter((ingr) => ingr[1] !== null);
   return (
     <section>
-      <img src={ recipe?.strMealThumb } alt="receita" data-testid="recipe-photo" />
+      <img
+        src={ recipe?.strMealThumb }
+        alt="receita"
+        data-testid="recipe-photo"
+        width="100%"
+        height="155px"
+      />
       <h2 data-testid="recipe-title">{recipe?.strMeal}</h2>
       <button data-testid="share-btn" type="button">Share</button>
       <button data-testid="favorite-btn" type="button">Favorite</button>
