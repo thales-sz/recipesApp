@@ -11,3 +11,13 @@
 .recomendations {
   min-width: 51%;
 }
+
+.container-btn {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+} 
+
+.start-recipe-btn {
+  bottom: 0;
+}

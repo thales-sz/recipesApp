@@ -120,6 +120,16 @@ export default function FoodDetails({ recipeDetails }) {
           </div>
         ))}
       </div>
+      <div className="container-btn">
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-recipe-btn"
+          style={ { position: 'fixed' } }
+        >
+          Start Recipe
+        </button>
+      </div>
     </div>
   );
 }
