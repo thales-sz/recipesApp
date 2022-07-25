@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
-import { saveIngredient, recipesInProgressStruture } from '../../helpers';
+import { saveIngredient, recipesInProgressStructure } from '../../helpers';
 import './Ingredients.css';
 
 function Ingredients({ ingredient, index }) {
@@ -13,7 +13,7 @@ function Ingredients({ ingredient, index }) {
     const item = localStorage.getItem('inProgressRecipes');
     if (item === null) {
       localStorage
-        .setItem('inProgressRecipes', JSON.stringify(recipesInProgressStruture));
+        .setItem('inProgressRecipes', JSON.stringify(recipesInProgressStructure));
     }
   }, []);
 
