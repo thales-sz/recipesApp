@@ -13,10 +13,10 @@
 }
 
 .container-btn {
+  align-items: flex-start;
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
-} 
+}
 
 .start-recipe-btn {
   bottom: 0;
