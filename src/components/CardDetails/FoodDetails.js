@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
 import FavoriteButton from '../ShareAndFavoriteButtons/FavoriteButton';
@@ -47,6 +47,11 @@ export default function FoodDetails({ recipeDetails }) {
   const handleClickShare = () => {
     setIsCopied(true);
     copy(`http://localhost:3000${location.pathname.split('/in')[0]}`);
+  };
+
+  const history = useHistory();
+  const startRecipeFood = () => {
+    history.push(`${location.pathname}/in-progress`);
   };
 
   const recomendations = drinks.slice(0, SIX);
@@ -126,6 +131,7 @@ export default function FoodDetails({ recipeDetails }) {
           data-testid="start-recipe-btn"
           className="start-recipe-btn"
           style={ { position: 'fixed' } }
+          onClick={ startRecipeFood }
         >
           Start Recipe
         </button>
