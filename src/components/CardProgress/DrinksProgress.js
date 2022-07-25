@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Ingredients from '../Ingredients/Ingredients';
 import FavoriteButton from '../ShareAndFavoriteButtons/FavoriteButton';
@@ -9,6 +9,7 @@ const copy = require('clipboard-copy');
 
 function DrinksProgress({ recipeProgress }) {
   const location = useLocation();
+  const [isCopied, setIsCopied] = useState(false);
   const recipe = recipeProgress ? recipeProgress[0] : null;
   const aux = recipe ? (
     Object.entries(recipe)
@@ -20,9 +21,9 @@ function DrinksProgress({ recipeProgress }) {
     console.log('oi');
   };
 
-  const handleClickShare = async () => {
-    global.alert('Link copied!');
-    await copy(`http://localhost:3000${location.pathname}`);
+  const handleClickShare = () => {
+    setIsCopied(true);
+    copy(`http://localhost:3000${location.pathname.split('/in')[0]}`);
   };
 
   return (
@@ -37,6 +38,7 @@ function DrinksProgress({ recipeProgress }) {
       <h2 data-testid="recipe-title">{recipe?.strDrink}</h2>
       <button data-testid="share-btn" type="button" onClick={ handleClickShare }>
         <ShareButton />
+        {isCopied && <p>Link copied!</p>}
       </button>
       <button data-testid="favorite-btn" type="button" onClick={ handleClickFavorite }>
         <FavoriteButton />

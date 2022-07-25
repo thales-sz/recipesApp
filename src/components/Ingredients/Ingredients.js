@@ -22,25 +22,38 @@ function Ingredients({ ingredient, index }) {
     saveIngredient(target.parentNode, pathname, id);
   };
 
+  const verifyChecked = () => {
+    if (pathname.includes('/drinks')) {
+      return JSON.parse(localStorage
+        .getItem('inProgressRecipes'))?.cocktails[id]?.includes(ingredient[1]);
+    } return JSON.parse(localStorage
+      .getItem('inProgressRecipes'))?.meals[id]?.includes(ingredient[1]);
+  };
+
+  const verifyStyleDrinks = () => {
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))
+      ?.cocktails[id]?.includes(ingredient[1])) {
+      return { textDecoration: 'line-through' };
+    } return { textDecoration: '' };
+  };
+
+  const verifyStyleFoods = () => {
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))
+      ?.meals[id]?.includes(ingredient[1])) {
+      return { textDecoration: 'line-through' };
+    } return { textDecoration: '' };
+  };
+
   return (
     ingredient[1] ? (
       <div
-        style={ pathname.includes('/drinks') && JSON.parse(localStorage
-          .getItem('inProgressRecipes'))?.cocktails[id]?.includes(ingredient[1]) ? (
-            { textDecoration: 'line-through' }
-          ) : ({ textDecoration: '' }) }
+        style={ pathname.includes('/drinks') ? verifyStyleDrinks() : verifyStyleFoods() }
         data-testid={ `${index}-ingredient-step` }
       >
         <input
           className="input-ingredient"
           type="checkbox"
-          checked={ pathname.includes('/drinks') ? (
-            JSON.parse(localStorage
-              .getItem('inProgressRecipes'))?.cocktails[id]?.includes(ingredient[1])
-          ) : (
-            JSON.parse(localStorage
-              .getItem('inProgressRecipes'))?.meals[id]?.includes(ingredient[1])
-          ) }
+          checked={ verifyChecked() }
           onChange={ handleChange }
         />
         {ingredient[1]}
