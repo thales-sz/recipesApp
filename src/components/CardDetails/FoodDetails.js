@@ -1,14 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getAPI } from '../../helpers';
 import { addRecipeDrinks } from '../../redux/actions';
+import FavoriteButton from '../ShareAndFavoriteButtons/FavoriteButton';
+import ShareButton from '../ShareAndFavoriteButtons/ShareButton';
+import './Details.css';
+
+const copy = require('clipboard-copy');
+
+const SIX = 6;
 
 const URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
 export default function FoodDetails({ recipeDetails }) {
+  const location = useLocation();
   const createArray = () => Array.from({ length: 20 }, (_, i) => i + 1);
+  const [isCopied, setIsCopied] = useState(false);
   const arrayAux = createArray();
   const dispatch = useDispatch();
   const { drinks } = useSelector((state) => state.reducer);
@@ -27,9 +36,20 @@ export default function FoodDetails({ recipeDetails }) {
   const strIngredient = (index) => `strIngredient${index}`;
   const srtMeansure = (index) => `strMeasure${index}`;
   const dataTestCard = (index) => `${index}-recomendation-card`;
+  const dataTestCardTitle = (index) => `${index}-recomendation-title`;
   const drinkLink = (drink) => `/drinks/${drink}`;
   const imageCard = (food) => `${food.strDrinkThumb}`;
 
+  const handleClickFavorite = () => {
+    console.log('oi');
+  };
+
+  const handleClickShare = () => {
+    setIsCopied(true);
+    copy(`http://localhost:3000${location.pathname.split('/in')[0]}`);
+  };
+
+  const recomendations = drinks.slice(0, SIX);
   return (
     <div>
       <h1 data-testid="recipe-title">{data?.strMeal}</h1>
@@ -38,9 +58,17 @@ export default function FoodDetails({ recipeDetails }) {
       <img
         src={ data?.strMealThumb }
         alt={ data?.strMeal }
-        width="200px"
+        width="100%"
+        height="300"
         data-testid="recipe-photo"
       />
+      <button data-testid="share-btn" type="button" onClick={ handleClickShare }>
+        <ShareButton />
+        {isCopied && <p>Link copied!</p>}
+      </button>
+      <button data-testid="favorite-btn" type="button" onClick={ handleClickFavorite }>
+        <FavoriteButton />
+      </button>
       <div className="ingredients-container">
         <h3>Ingredientes</h3>
         <ul>
@@ -62,8 +90,8 @@ export default function FoodDetails({ recipeDetails }) {
       <div className="video-container">
         <iframe
           data-testid="video"
-          width="560"
-          height="315"
+          width="100%"
+          height="300"
           src={ String(data?.strYoutube).replace('watch?v=', 'embed/') }
           title={ `How to make ${data?.strMeal}` }
           frameBorder="0"
@@ -72,21 +100,24 @@ export default function FoodDetails({ recipeDetails }) {
           allowFullScreen
         />
       </div>
+      <h3>Recomendations</h3>
       <div className="recomendations-container">
-        <h3>Recomendations</h3>
-        { drinks?.map((drink, index) => (
-          <Link
+        { recomendations?.map((drink, index) => (
+          <div
             key={ index }
+            className="recomendations"
             data-testid={ dataTestCard(index) }
-            to={ drinkLink(drink.idDrink) }
           >
-            <img
-              src={ imageCard(drink) }
-              alt="drink"
-              width="50"
-            />
-            <p>{drink.strDrink}</p>
-          </Link>
+            <Link
+              to={ drinkLink(drink.idDrink) }
+            >
+              <img
+                src={ imageCard(drink) }
+                alt="drink"
+              />
+              <p data-testid={ dataTestCardTitle(index) }>{drink.strDrink}</p>
+            </Link>
+          </div>
         ))}
       </div>
     </div>

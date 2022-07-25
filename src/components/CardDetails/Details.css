@@ -1,0 +1,13 @@
+.recomendations-container {
+  display: flex;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.recomendations-container::-webkit-scrollbar {
+  display: none;
+}
+
+.recomendations {
+  min-width: 51%;
+}

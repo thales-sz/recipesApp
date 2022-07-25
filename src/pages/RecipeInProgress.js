@@ -13,14 +13,13 @@ function RecipeInProgress() {
   useEffect(() => {
     const getRecipeDetail = async (endpoint) => {
       const recipe = await getAPI(`${endpoint}${path.split('/')[2]}`);
-      console.log(recipe, 'receitas');
       setData(recipe);
     };
     if (path === `/drinks/${path.split('/')[2]}/in-progress`) {
       return getRecipeDetail('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
     } getRecipeDetail('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
   }, [path]);
-  // console.log(data);
+
   return (
     <section>
       {path === `/drinks/${path.split('/')[2]}/in-progress` ? (
