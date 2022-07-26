@@ -40,7 +40,34 @@ export default function DrinksDetails({ recipeDetails }) {
   const imageCard = (food) => `${food.strMealThumb}`;
 
   const handleClickFavorite = () => {
-    console.log('oi');
+    let getStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    const objFavorite = {
+      id: data.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: data.strCategory,
+      alcoholicOrNot: data.strAlcoholic,
+      name: data.strDrink,
+      image: data.strDrinkThumb,
+    };
+
+    if (!getStorage) {
+      const arr = [];
+      arr.push(objFavorite);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arr));
+    }
+
+    if (getStorage) {
+      const verify = getStorage.some((cur) => cur.id === data.idDrink);
+      if (!verify) {
+        localStorage.favoriteRecipes = JSON.stringify(getStorage.concat(objFavorite));
+      }
+      if (verify) {
+        getStorage = getStorage.filter((curr) => curr.id !== id);
+        localStorage.favoriteRecipes = JSON.stringify(getStorage);
+      }
+    }
   };
 
   const handleClickShare = () => {
