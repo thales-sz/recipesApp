@@ -41,7 +41,7 @@ function DrinksProgress({ recipeProgress }) {
         {isCopied && <p>Link copied!</p>}
       </button>
       <button data-testid="favorite-btn" type="button" onClick={ handleClickFavorite }>
-        <FavoriteButton />
+        <FavoriteButton recipeId={ recipe?.idDrink } />
       </button>
       <h2 data-testid="recipe-category">{recipe?.strCategory}</h2>
       {ingredients?.map(

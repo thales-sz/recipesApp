@@ -1,9 +1,8 @@
 import React from 'react';
-import { getByTestId, screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { renderWithRouterAndStore } from '../testConfig';
 import DoneRecipes from '../pages/DoneRecipes';
 import userEvent from '@testing-library/user-event';
-import App from '../App';
 
 const doneRecipes = [
   {

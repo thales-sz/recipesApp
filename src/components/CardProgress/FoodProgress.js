@@ -46,7 +46,7 @@ function FoodProgress({ recipeProgress }) {
         type="button"
         onClick={ handleClickFavoriteFood }
       >
-        <FavoriteButton />
+        <FavoriteButton recipeId={ recipe?.idMeal } />
       </button>
       <h2 data-testid="recipe-category">{recipe?.strCategory}</h2>
       {ingredients?.map(
