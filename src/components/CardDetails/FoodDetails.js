@@ -40,16 +40,47 @@ export default function FoodDetails({ recipeDetails }) {
   const drinkLink = (drink) => `/drinks/${drink}`;
   const imageCard = (food) => `${food.strDrinkThumb}`;
 
-  const handleClickFavorite = () => {
-    console.log('oi');
-  };
-
   const handleClickShare = () => {
     setIsCopied(true);
     copy(`http://localhost:3000${location.pathname.split('/in')[0]}`);
   };
 
-  const recomendations = drinks.slice(0, SIX);
+  const handleClickFavorite = () => {
+    let getStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    let objFavorite = {};
+    recipeDetails.forEach((elem) => {
+      objFavorite = {
+        id: elem.idMeal,
+        type: 'food',
+        nationality: elem.strArea,
+        category: elem.strCategory,
+        alcoholicOrNot: '',
+        name: elem.strMeal,
+        image: elem.strMealThumb,
+      };
+    });
+
+    if (!getStorage) {
+      const arr = [];
+      arr.push(objFavorite);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arr));
+    }
+
+    if (getStorage) {
+      const verify = getStorage?.some((cur) => cur.id === data.idMeal);
+      if (!verify) {
+        localStorage.favoriteRecipes = JSON.stringify(getStorage.concat(objFavorite));
+        console.log('entrou');
+      }
+      if (verify) {
+        getStorage = getStorage.filter((curr) => curr.id !== id);
+        localStorage.favoriteRecipes = JSON.stringify(getStorage);
+      }
+    }
+  };
+
+  const recomendations = drinks?.slice(0, SIX);
   return (
     <div>
       <h1 data-testid="recipe-title">{data?.strMeal}</h1>
@@ -66,7 +97,11 @@ export default function FoodDetails({ recipeDetails }) {
         <ShareButton />
         {isCopied && <p>Link copied!</p>}
       </button>
-      <button data-testid="favorite-btn" type="button" onClick={ handleClickFavorite }>
+      <button
+        data-testid="favorite-btn"
+        type="button"
+        onClick={ handleClickFavorite }
+      >
         <FavoriteButton />
       </button>
       <div className="ingredients-container">
