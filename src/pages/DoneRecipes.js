@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header/Header';
-import { doneRecipeStructure } from '../helpers';
 import ShareButton from '../components/ShareAndFavoriteButtons/ShareButton';
 
 const copy = require('clipboard-copy');
 
-// [{"id":"13332","type":"drink","nationality":"brazil","category":"category","alcoholicOrNot":"alcoholic","name":"Nome da receita","image":"https://www.themealdb.com/images/media/meals/58oia61564916529.jpg","doneDate":"31/10/2000","tags":"drugs"}]
 function DoneRecipes() {
   const [isCopied, setIsCopied] = useState(false);
-  useEffect(() => {
-    console.log(localStorage.getItem('doneRecipes'));
-    if (localStorage.getItem('doneRecipes') === null) {
-      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipeStructure));
-    }
-  }, []);
+  const [doneRecipes, setRecipes] = useState();
 
   const recipeCardImg = (index) => `${index}-horizontal-image`;
   const recipeCardCategory = (index) => `${index}-horizontal-top-text`;
@@ -23,8 +17,12 @@ function DoneRecipes() {
   const recipeCardDate = (index) => `${index}-horizontal-done-date`;
   const recipeCardShare = (index) => `${index}-horizontal-share-btn`;
   const recipeCardTag = (index, tag) => `${index}-${tag}-horizontal-tag`;
+  const recipeCardLink = (type, id) => `/${type}s/${id}`;
 
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  useEffect(() => {
+    const recipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    setRecipes(recipes);
+  }, [setRecipes]);
 
   const handleClickShare = (recipe) => {
     setIsCopied(true);
@@ -32,14 +30,48 @@ function DoneRecipes() {
       return copy(`http://localhost:3000/foods/${recipe.id}`);
     } copy(`http://localhost:3000/drinks/${recipe.id}`);
   };
-  console.log(doneRecipes);
+
+  const handleClickFilter = ({ target }) => {
+    switch (target.value) {
+    case 'food':
+      setRecipes(doneRecipes.filter((recipe) => recipe.type === 'food'));
+      break;
+    case 'drink':
+      setRecipes(doneRecipes.filter((recipe) => recipe.type === 'drink'));
+      break;
+    default:
+      setRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
+      break;
+    }
+  };
+
   return (
     <div>
       <Header title="Done Recipes" />
       <nav className="filters-container">
-        <button data-testid="filter-by-all-btn" type="button">All</button>
-        <button data-testid="filter-by-food-btn" type="button">Food</button>
-        <button data-testid="filter-by-drink-btn" type="button">Drink</button>
+        <button
+          data-testid="filter-by-all-btn"
+          type="button"
+          onClick={ handleClickFilter }
+        >
+          All
+        </button>
+        <button
+          data-testid="filter-by-food-btn"
+          type="button"
+          value="food"
+          onClick={ handleClickFilter }
+        >
+          Food
+        </button>
+        <button
+          data-testid="filter-by-drink-btn"
+          type="button"
+          value="drink"
+          onClick={ handleClickFilter }
+        >
+          Drink
+        </button>
       </nav>
       <section className="done-recipes-container">
         {doneRecipes?.map((recipe, index) => {
@@ -49,11 +81,13 @@ function DoneRecipes() {
                 key={ index }
                 className="done-recipe"
               >
-                <img
-                  src={ recipe.image }
-                  alt="drink"
-                  data-testid={ recipeCardImg(index) }
-                />
+                <Link to={ recipeCardLink(recipe.type, recipe.id) }>
+                  <img
+                    src={ recipe.image }
+                    alt="drink"
+                    data-testid={ recipeCardImg(index) }
+                  />
+                </Link>
                 <div className="info-container">
                   <div />
                   <button
@@ -68,7 +102,9 @@ function DoneRecipes() {
                   <div data-testid={ recipeCardCategory(index) }>
                     {recipe.alcoholicOrNot}
                   </div>
-                  <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
+                  <Link to={ recipeCardLink(recipe.type, recipe.id) }>
+                    <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
+                  </Link>
                   <div data-testid={ recipeCardDate(index) }>
                     Done in:
                     {' '}
@@ -88,7 +124,13 @@ function DoneRecipes() {
               key={ index }
               className="done-recipe"
             >
-              <img src={ recipe.image } alt="food" data-testid={ recipeCardImg(index) } />
+              <Link to={ recipeCardLink(recipe.type, recipe.id) }>
+                <img
+                  src={ recipe.image }
+                  alt="food"
+                  data-testid={ recipeCardImg(index) }
+                />
+              </Link>
               <div className="info-container">
                 <button
                   data-testid={ recipeCardShare(index) }
@@ -106,7 +148,9 @@ function DoneRecipes() {
                   {' '}
                   {recipe.category}
                 </div>
-                <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
+                <Link to={ recipeCardLink(recipe.type, recipe.id) }>
+                  <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
+                </Link>
                 <div data-testid={ recipeCardDate(index) }>
                   Done in:
                   {' '}
