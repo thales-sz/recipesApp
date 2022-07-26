@@ -47,7 +47,6 @@ function FavoriteRecipes() {
   const recipeCardImg = (index) => `${index}-horizontal-image`;
   const recipeCardCategory = (index) => `${index}-horizontal-top-text`;
   const recipeCardName = (index) => `${index}-horizontal-name`;
-  const recipeCardDate = (index) => `${index}-horizontal-done-date`;
   const recipeCardFavorite = (index) => `${index}-horizontal-favorite-btn`;
   const recipeCardShare = (index) => `${index}-horizontal-share-btn`;
   const recipeCardLink = (type, id) => `/${type}s/${id}`;
@@ -122,11 +121,6 @@ function FavoriteRecipes() {
                   <Link to={ recipeCardLink(recipe.type, recipe.id) }>
                     <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
                   </Link>
-                  <div data-testid={ recipeCardDate(index) }>
-                    Done in:
-                    {' '}
-                    {recipe.doneDate}
-                  </div>
                 </div>
               </div>
             );
@@ -170,11 +164,6 @@ function FavoriteRecipes() {
                 <Link to={ recipeCardLink(recipe.type, recipe.id) }>
                   <div data-testid={ recipeCardName(index) }>{recipe.name}</div>
                 </Link>
-                <div data-testid={ recipeCardDate(index) }>
-                  Done in:
-                  {' '}
-                  {recipe.doneDate}
-                </div>
               </div>
             </div>
           );
