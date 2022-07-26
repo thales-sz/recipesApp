@@ -2,10 +2,22 @@ export const ENDPOINT_COCKTAIL = 'https://www.thecocktaildb.com/api.php';
 // const ENDPOINT_MEAL = 'https://www.themealdb.com/api.php';
 let storageItens;
 
-export const recipesInProgressStruture = {
+export const recipesInProgressStructure = {
   cocktails: {},
   meals: {},
 };
+
+export const doneRecipeStructure = [{
+  id: '',
+  type: '',
+  nationality: '',
+  category: '',
+  alcoholicOrNot: '',
+  name: '',
+  image: '',
+  doneDate: '',
+  tags: '',
+}];
 
 export const getAPI = async (url) => {
   try {
