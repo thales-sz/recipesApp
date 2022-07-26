@@ -1,10 +1,12 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { getByTestId, screen, waitFor } from '@testing-library/react';
 import { renderWithRouterAndStore } from '../testConfig';
 import DoneRecipes from '../pages/DoneRecipes';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
+import FavoriteRecipes from '../pages/FavoriteRecipes';
 
-const doneRecipes = [
+const favoriteRecipes = [
   {
     id: '52771',
     type: 'food',
@@ -13,8 +15,6 @@ const doneRecipes = [
     alcoholicOrNot: '',
     name: 'Spicy Arrabiata Penne',
     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    doneDate: '23/06/2020',
-    tags: ['Pasta', 'Curry'],
   },
   {
     id: '178319',
@@ -24,8 +24,6 @@ const doneRecipes = [
     alcoholicOrNot:  'Alcoholic',
     name: 'Aquamarine',
     image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-    doneDate: '23/06/2020',
-    tags: [],
   },
 ];
 
@@ -35,16 +33,12 @@ Object.assign(navigator, {
   },
 });
 
-localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+localStorage.setItem('doneRecipes', JSON.stringify(favoriteRecipes));
 
-describe('Testa página de Done Recipes', () => {
+describe('Testa página de Favorite Recipes', () => {
   it('Testa click no nome do item food e se é redirecionado à pagina correta', () => {
-    const { history } = renderWithRouterAndStore(<DoneRecipes/>);
-    const tags1 = screen.getByText(/pasta/i);
-    const tags2 = screen.getByText(/curry/i);
-    expect(tags1).toBeInTheDocument();
-    expect(tags2).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /done recipes/i })).toBeInTheDocument();
+    const { history } = renderWithRouterAndStore(<FavoriteRecipes/>);
+    expect(screen.getByRole('heading', { name: /favorite recipes/i })).toBeInTheDocument();
     expect(screen.getByRole('img', {name: /food/i})).toBeInTheDocument();
     const buttonName = screen.getByText(/spicy arrabiata penne/i);
     userEvent.click(buttonName);
@@ -52,8 +46,8 @@ describe('Testa página de Done Recipes', () => {
   });
 
   it('Testa click no nome do item drink e se é redirecionado à pagina correta', () => {
-    const { history } = renderWithRouterAndStore(<DoneRecipes/>);
-    expect(screen.getByRole('heading', { name: /done recipes/i })).toBeInTheDocument();
+    const { history } = renderWithRouterAndStore(<FavoriteRecipes/>);
+    expect(screen.getByRole('heading', { name: /favorite recipes/i })).toBeInTheDocument();
     expect(screen.getByRole('img', {name: /drink/i})).toBeInTheDocument();
     const buttonNameDrink = screen.getByText(/aquamarine/i);
     userEvent.click(buttonNameDrink);
@@ -63,7 +57,7 @@ describe('Testa página de Done Recipes', () => {
   it('Testa o click no botão de compartilhar receita drinks e foods', () => {
     jest.spyOn(navigator.clipboard, "writeText");
   
-    renderWithRouterAndStore(<DoneRecipes/>);
+    renderWithRouterAndStore(<FavoriteRecipes/>);
     const shareButtonFood = screen.getByTestId('0-horizontal-share-btn');
     const shareButtonDrink = screen.getByTestId('1-horizontal-share-btn');
     userEvent.click(shareButtonDrink);
@@ -74,7 +68,7 @@ describe('Testa página de Done Recipes', () => {
   });
 
   it('Testa os botão de filtro Food', () => {
-    renderWithRouterAndStore(<DoneRecipes/>);
+    renderWithRouterAndStore(<FavoriteRecipes/>);
     const drinkItem = screen.getByText(/aquamarine/i);
     const filterFood = screen.getByRole('button', {
       name: /food/i
@@ -84,7 +78,7 @@ describe('Testa página de Done Recipes', () => {
   })
 
   it('Testa os botão de filtro Drink', () => {
-    renderWithRouterAndStore(<DoneRecipes/>);
+    renderWithRouterAndStore(<FavoriteRecipes/>);
     const foodItem = screen.getByText(/spicy arrabiata penne/i);
     const filterDrink = screen.getByRole('button', {
       name: /drink/i
@@ -94,7 +88,7 @@ describe('Testa página de Done Recipes', () => {
   })
 
   it('Testa os botão de filtro All', () => {
-    renderWithRouterAndStore(<DoneRecipes/>);
+    renderWithRouterAndStore(<FavoriteRecipes/>);
     const drinkItem = screen.getByText(/aquamarine/i);
     const foodItem = screen.getByText(/spicy arrabiata penne/i);
     const filterDrink = screen.getByRole('button', {
