@@ -7,7 +7,7 @@ function FavoriteButton({ recipeId }) {
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    favoriteRecipes.forEach((recipe) => {
+    favoriteRecipes?.forEach((recipe) => {
       if (recipe.id === recipeId) {
         setIsFav(true);
       }
