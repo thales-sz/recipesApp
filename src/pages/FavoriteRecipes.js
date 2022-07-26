@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import Header from '../components/Header/Header';
@@ -12,7 +11,6 @@ const copy = require('clipboard-copy');
 function FavoriteRecipes() {
   const [isCopied, setIsCopied] = useState(false);
   const [favoriteRecipes, setRecipes] = useState();
-  const [isFavProp, setIsFavProp] = useState(false);
 
   useEffect(() => {
     const recipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -38,6 +36,12 @@ function FavoriteRecipes() {
     if (recipe.type === 'food') {
       return copy(`http://localhost:3000/foods/${recipe.id}`);
     } copy(`http://localhost:3000/drinks/${recipe.id}`);
+  };
+
+  const handleClickFavorite = (recipe) => {
+    const newFav = favoriteRecipes.filter((reci) => reci !== recipe);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFav));
+    setRecipes(newFav);
   };
 
   const recipeCardImg = (index) => `${index}-horizontal-image`;
@@ -96,18 +100,18 @@ function FavoriteRecipes() {
                   <button
                     data-testid={ recipeCardFavorite(index) }
                     type="button"
-                    src={ isFavProp ? blackHeartIcon : whiteHeartIcon }
+                    src={ blackHeartIcon }
+                    onClick={ () => handleClickFavorite(recipe) }
                   >
                     <FavoriteButton
                       recipeId={ recipe.id }
-                      setIsFavProp={ setIsFavProp }
                     />
                   </button>
                   <button
                     data-testid={ recipeCardShare(index) }
                     type="button"
                     src={ shareIcon }
-                    onClick={ handleClickShare }
+                    onClick={ () => handleClickShare(recipe) }
                   >
                     <ShareButton />
                   </button>
@@ -142,15 +146,16 @@ function FavoriteRecipes() {
                 <button
                   data-testid={ recipeCardFavorite(index) }
                   type="button"
-                  src={ isFavProp ? blackHeartIcon : whiteHeartIcon }
+                  src={ blackHeartIcon }
+                  onClick={ () => handleClickFavorite(recipe) }
                 >
-                  <FavoriteButton recipeId={ recipe.id } setIsFavProp={ setIsFavProp } />
+                  <FavoriteButton recipeId={ recipe.id } />
                 </button>
                 <button
                   data-testid={ recipeCardShare(index) }
                   type="button"
                   src={ shareIcon }
-                  onClick={ handleClickShare }
+                  onClick={ () => handleClickShare(recipe) }
                 >
                   <ShareButton />
                 </button>

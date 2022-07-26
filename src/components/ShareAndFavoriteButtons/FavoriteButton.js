@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
-function FavoriteButton({ recipeId, setIsFavProp }) {
+function FavoriteButton({ recipeId }) {
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     favoriteRecipes.forEach((recipe) => {
       if (recipe.id === recipeId) {
-        setIsFavProp(true);
         setIsFav(true);
       }
     });
-  }, [recipeId, setIsFavProp]);
+  }, [recipeId]);
 
   return (
     <img src={ isFav ? blackHeartIcon : whiteHeartIcon } alt="Botão de favorito" />
